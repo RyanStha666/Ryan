@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>StudyPal - AI Study Companion & Exam Mastery</title>
+  <meta name="description" content="AI Study Companion for Class 1 to Master's degree with Veo AI Video generation, multi-feature file uploads, oral viva voice tests, bilingual Nepali/English curriculum, and real study streak tracking.">
+  <link rel="icon" type="image/png" href="studypal_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="app" class="app-container">
+
+    <!-- TOP UNIVERSAL SHORT URL BANNER -->
+    <header id="universal-banner" class="universal-url-banner">
+      <div class="url-banner-left">
+        <span class="url-pulse-dot" title="Server Active"></span>
+        <div class="url-text-group">
+          <span class="url-label">StudyPal Web • Universal Access</span>
+          <a id="banner-url-display" href="https://ais-pre-fk3j6bzcbvokzambobfzoy-175532158548.asia-southeast1.run.app" target="_blank" class="url-address-link">studypal.app/live</a>
+        </div>
+      </div>
+      <div class="url-banner-right">
+        <button id="btn-copy-web-url" class="btn-url-pill primary" title="Copy shareable link for any browser">📋 Copy Link</button>
+        <button id="btn-show-qr" class="btn-url-pill" title="Scan QR for mobile/tablet">📱 QR / Share</button>
+      </div>
+    </header>
+
+    <!-- 1. GOOGLE LOGIN SCREEN (ZERO PERSONAL DATA LEAKS) -->
+    <section id="login-view" class="view-screen active">
+      <div class="login-wrapper">
+        <div class="mascot-badge-large">
+          <img src="studypal_logo.png" alt="StudyPal Mascot Logo" class="mascot-img">
+        </div>
+        <h1 class="brand-title">StudyPal</h1>
+        <p class="brand-tagline">AI Study Companion & Exam Mastery</p>
+        <p class="brand-description">Universal AI study suite with multi-file uploads, Veo 3.1 Pro animated video lessons, voice viva voce, and bilingual curriculum from Class 1 to Master's degree.</p>
+
+        <div class="features-card">
+          <div class="feature-item">
+            <div class="feature-icon cyan-bg">🎬</div>
+            <div class="feature-text">
+              <h4>Veo 3.1 Pro Video Studio</h4>
+              <p>Turn notes & uploaded textbook photos into animated video lessons</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon purple-bg">📂</div>
+            <div class="feature-text">
+              <h4>Universal Uploads & Privacy</h4>
+              <p>Attach images, PDFs & docs to every tool with 100% anonymous privacy</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon amber-bg">🇳🇵</div>
+            <div class="feature-text">
+              <h4>Class 1 to Master's Dual Curriculum</h4>
+              <p>नेपाली, सामाजिक अध्ययन, Science, Health & Computer Science</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon red-bg">🔥</div>
+            <div class="feature-text">
+              <h4>Authentic Day 1 Study Streak</h4>
+              <p>Begin your real study streak from Day 1 after finishing your first lesson</p>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-google-login" class="btn-google">
+          <svg class="google-icon" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+
+        <button id="btn-guest-login" class="btn-text">Explore as Guest Learner (Anonymous)</button>
+        <span class="terms-note">🔒 Privacy Protected: Zero personal data exposure. Study safely on any device.</span>
+      </div>
+    </section>
+
+    <!-- 2. ONBOARDING QUESTIONNAIRE SCREEN -->
+    <section id="onboarding-view" class="view-screen">
+      <div class="onboarding-header">
+        <button id="btn-onboarding-back" class="icon-btn">←</button>
+        <div class="onboarding-brand">
+          <img src="studypal_logo.png" alt="Logo" class="mini-logo">
+          <span>StudyPal Setup</span>
+        </div>
+        <span id="onboarding-step-counter" class="step-indicator">1/6</span>
+      </div>
+      <div class="progress-bar-track">
+        <div id="onboarding-progress-fill" class="progress-bar-fill" style="width: 16%;"></div>
+      </div>
+
+      <div class="onboarding-body">
+        <!-- Step 1: Name -->
+        <div class="onboarding-step active" data-step="0">
+          <h2>What should we call you?</h2>
+          <p class="step-subtitle">Choose any learner alias or your real first name. Your profile remains 100% private.</p>
+          <div class="input-card">
+            <label for="input-student-name">Learner Display Name</label>
+            <input type="text" id="input-student-name" value="Learner" placeholder="e.g. Alex, Scholar, or your name">
+            <p class="helper-text">Hi <span id="preview-name">Learner</span>! StudyPal is ready to personalize your study journey.</p>
+          </div>
+        </div>
+
+        <!-- Step 2: Class (1 to Masters) & Age -->
+        <div class="onboarding-step" data-step="1">
+          <h2>What class or degree are you in?</h2>
+          <p class="step-subtitle">From Primary Class 1 to Master's Degree, select your level for tailored subjects.</p>
+          
+          <label class="section-label">1. Select Education Category:</label>
+          <div id="education-categories-list" class="categories-grid"></div>
+
+          <label class="section-label" style="margin-top: 14px;">2. Select Specific Class / Degree:</label>
+          <div id="specific-levels-list" class="chips-flex"></div>
+
+          <label class="section-label" style="margin-top: 14px;">3. Student Age: <span id="label-selected-age" class="highlight-cyan">16 yrs</span></label>
+          <div id="age-selector-chips" class="chips-row"></div>
+        </div>
+
+        <!-- Step 3: Subjects (Bilingual Nepali / English) -->
+        <div class="onboarding-step" data-step="2">
+          <h2>What subjects do you study?</h2>
+          <p class="step-subtitle">Includes dual-language Nepali, Social Science (सामाजिक अध्ययन), Science, Health & Computer Science.</p>
+          <div class="input-card">
+            <div class="card-header-flex">
+              <span id="subjects-count-label" class="badge-pill">4 Subjects Selected</span>
+            </div>
+            <div id="subjects-checklist" class="checklist-grid"></div>
+          </div>
+        </div>
+
+        <!-- Step 4: Exam Coming or Not -->
+        <div class="onboarding-step" data-step="3">
+          <h2>Is your exam coming up soon?</h2>
+          <p class="step-subtitle">We will generate a countdown revision schedule and focused high-yield practice.</p>
+          
+          <div class="exam-toggle-grid">
+            <div id="exam-toggle-yes" class="toggle-card active">
+              <span class="toggle-emoji">📅</span>
+              <h3>Yes, Exam Scheduled</h3>
+              <p>Boards, SEE, NEB, Mid-Terms or Finals</p>
+            </div>
+            <div id="exam-toggle-no" class="toggle-card">
+              <span class="toggle-emoji">📖</span>
+              <h3>No Major Exam</h3>
+              <p>Self-paced conceptual mastery</p>
+            </div>
+          </div>
+
+          <div id="exam-details-card" class="input-card" style="margin-top: 14px;">
+            <label for="input-target-exam">Target Examination Name</label>
+            <input type="text" id="input-target-exam" value="Secondary Final Examination 2027">
+            
+            <label style="margin-top: 12px;">Days until exam: <span id="label-countdown-val" class="highlight-amber">90 days</span></label>
+            <input type="range" id="input-exam-days" min="1" max="365" value="90" class="slider-range">
+          </div>
+        </div>
+
+        <!-- Step 5: Study Mastery Goal -->
+        <div class="onboarding-step" data-step="4">
+          <h2>What is your Study Mastery Goal?</h2>
+          <p class="step-subtitle">Select your academic benchmark and daily study minutes habit.</p>
+
+          <label class="section-label">Academic Benchmark Level:</label>
+          <div id="mastery-goals-list" class="options-vertical"></div>
+
+          <label class="section-label" style="margin-top: 14px;">Daily Study Target Goal (Minutes):</label>
+          <div id="daily-minutes-row" class="chips-row"></div>
+        </div>
+
+        <!-- Step 6: Summary & Launch -->
+        <div class="onboarding-step" data-step="5">
+          <div class="summary-hero">
+            <img src="studypal_logo.png" alt="Mascot" class="summary-mascot">
+            <h2 id="summary-greeting">You're All Set, Learner!</h2>
+            <p>Your personalized study roadmap with Veo video generator and practice papers is ready.</p>
+          </div>
+          <div class="input-card summary-card">
+            <div class="summary-row">
+              <span class="summary-key">Student Name</span>
+              <span id="sum-name" class="summary-val">Learner</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">Class & Age</span>
+              <span id="sum-class" class="summary-val">Class 10 • 16 yrs</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">Target Exam</span>
+              <span id="sum-exam" class="summary-val">Final Examination (90 days left)</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">Active Subjects</span>
+              <span id="sum-subjects" class="summary-val">Science, Nepali, Social Science, Computer Science</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">Mastery Goal</span>
+              <span id="sum-goal" class="summary-val">95%+ Distinction Mastery</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">Daily Habit</span>
+              <span id="sum-daily" class="summary-val">45 mins / day</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="onboarding-footer">
+        <button id="btn-onboarding-prev" class="btn-secondary" style="visibility: hidden;">Previous</button>
+        <button id="btn-onboarding-next" class="btn-primary">Continue →</button>
+      </div>
+    </section>
+
+    <!-- 3. MAIN DASHBOARD & STUDY SUITE -->
+    <section id="main-view" class="view-screen">
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <img src="studypal_logo.png" alt="Logo" class="topbar-logo">
+          <div class="topbar-titles">
+            <h2 id="topbar-title">StudyPal</h2>
+            <span id="topbar-subtitle" class="topbar-sub">Class 10 • Learner</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button id="btn-share-link" class="share-url-badge" title="Website Public URL & Short Link">
+            <span class="share-icon">🌐</span>
+            <span class="share-label">Public Link</span>
+          </button>
+          <div id="btn-streak-badge" class="streak-badge" title="View Real Study Streak">
+            <span class="flame-icon">🔥</span>
+            <span id="topbar-streak-num">0d</span>
+          </div>
+          <div id="btn-topbar-profile" class="avatar-circle" title="Student Profile & Settings">
+            <span id="topbar-avatar-initials">SP</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Container with Tabs -->
+      <main class="main-content">
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-pane active">
+          <!-- PULL TO REFRESH INTERACTION COMPONENT -->
+          <div id="ptr-indicator" class="ptr-container">
+            <div class="ptr-badge">
+              <div class="ptr-spinner-ring"></div>
+              <span class="ptr-flame-icon">🔥</span>
+            </div>
+            <span id="ptr-label" class="ptr-status-label">Pull down to sync</span>
+          </div>
+
+          <!-- Mascot Hero Card -->
+          <div class="dashboard-hero-card">
+            <div class="hero-left">
+              <div class="hero-tag-row">
+                <span id="hero-class-badge" class="badge-solid">Class 10 Secondary</span>
+                <span class="hero-ai-tag">VEO 3.1 & AI SUITE</span>
+              </div>
+              <h2 id="hero-welcome-text">Welcome, Learner 👋</h2>
+              <p id="hero-goal-text" class="hero-goal">Goal: 95%+ Distinction Mastery</p>
+              <p id="hero-sub-text" class="hero-sub">Complete a lesson to unlock your Day 1 Streak!</p>
+            </div>
+            <div class="hero-right">
+              <img src="studypal_logo.png" alt="Mascot" class="hero-mascot-img">
+            </div>
+          </div>
+
+          <!-- Active Subjects Chips -->
+          <div class="section-container">
+            <h4 class="section-micro-title">YOUR ACTIVE SUBJECTS (BILINGUAL)</h4>
+            <div id="dashboard-subjects-chips" class="subjects-chip-row"></div>
+          </div>
+
+          <!-- Exam Countdown & Study Streak Card -->
+          <div class="countdown-streak-card">
+            <div class="cd-row">
+              <div class="cd-col">
+                <span id="cd-title-label" class="micro-label">EXAM COUNTDOWN</span>
+                <h3 id="cd-days-text" class="cd-days highlight-amber">90 Days Left</h3>
+                <span id="cd-exam-name" class="cd-name">Secondary Final Examination 2027</span>
+              </div>
+              <div id="card-streak-trigger" class="streak-widget">
+                <span class="streak-flame-large">🔥</span>
+                <div class="streak-widget-text">
+                  <h4 id="dash-streak-count">0 Days</h4>
+                  <span id="dash-streak-sub">Complete a lesson to start Day 1</span>
+                </div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <!-- Daily Goal Progress -->
+            <div class="goal-progress-section">
+              <div class="goal-progress-header">
+                <span id="goal-minutes-status">Today's Study Progress: 0 / 45 mins</span>
+                <span id="goal-percent-text" class="highlight-cyan">0%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div id="dash-goal-progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+              </div>
+              <div class="log-button-row">
+                <button id="btn-log-study-15" class="btn-pill-action">+15m Quick Study Log</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Study Suite Grid (With Veo Video Studio!) -->
+          <div class="section-container">
+            <h4 class="section-micro-title">STUDYPAL AI SUITE & MULTI-UPLOADS</h4>
+            <div class="tools-grid">
+              <div class="tool-card cyan-border" data-target-tab="studio">
+                <div class="tool-icon cyan-bg">✨</div>
+                <span class="tool-badge cyan-text">7 GENERATIVE TOOLS</span>
+                <h3>AI Creative Studio</h3>
+                <p>Music, images, voice API, Omni video & multi-model chat</p>
+              </div>
+              <div class="tool-card cyan-border" data-target-tab="veo">
+                <div class="tool-icon cyan-bg">🎬</div>
+                <span class="tool-badge cyan-text">NEW • VEO 3.1</span>
+                <h3>Veo Video Studio</h3>
+                <p>Generate animated concept videos from notes & images</p>
+              </div>
+              <div class="tool-card purple-border" data-target-tab="notes">
+                <div class="tool-icon purple-bg">📝</div>
+                <span class="tool-badge purple-text">DOC & OCR UPLOAD</span>
+                <h3>Notes to Tools</h3>
+                <p>Upload photos of notes/PDFs into summaries & flashcards</p>
+              </div>
+              <div class="tool-card green-border" data-target-tab="viva">
+                <div class="tool-icon green-bg">🎙️</div>
+                <span class="tool-badge green-text">VOICE & DIAGRAMS</span>
+                <h3>Oral Viva Voce</h3>
+                <p>Upload diagrams & speak answers for AI evaluation</p>
+              </div>
+              <div class="tool-card amber-border" data-target-tab="papers">
+                <div class="tool-icon amber-bg">📋</div>
+                <span class="tool-badge amber-text">PAPER SCANNER</span>
+                <h3>Practice Papers</h3>
+                <p>Upload question papers to take timed interactive mocks</p>
+              </div>
+              <div class="tool-card indigo-border" data-target-tab="tutor">
+                <div class="tool-icon indigo-bg">🤖</div>
+                <span class="tool-badge indigo-text">PHOTO DOUBT SOLVER</span>
+                <h3>AI Tutor Copilot</h3>
+                <p>Send homework photos or questions in English/Nepali</p>
+              </div>
+              <div class="tool-card red-border" data-target-tab="flashcards">
+                <div class="tool-icon red-bg">⚡</div>
+                <span class="tool-badge red-text">VISUAL RECALL</span>
+                <h3>Flashcards Deck</h3>
+                <p>Upload visual decks with 3D flip card active recall</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Study Checklist -->
+          <div class="checklist-card">
+            <h3>Today's Study Checklist</h3>
+            <div class="checklist-items">
+              <label class="check-item"><input type="checkbox" id="check-task-1"> <span>Generate a Veo 3.1 Video for Science or Computer Science</span> <span class="tag">15m</span></label>
+              <label class="check-item"><input type="checkbox" id="check-task-2"> <span>Practice Oral Viva for सामाजिक अध्ययन (Social Studies)</span> <span class="tag">10m</span></label>
+              <label class="check-item"><input type="checkbox" id="check-task-3"> <span>Upload Notes & Review Formula Flashcards</span> <span class="tag">20m</span></label>
+            </div>
+          </div>
+
+          <!-- GLOBAL STUDENT LEADERBOARD (ANONYMOUS TOP STUDY STREAKS) -->
+          <div class="leaderboard-card">
+            <div class="leaderboard-header">
+              <div class="leaderboard-title-col">
+                <div class="leaderboard-tag-row">
+                  <span class="badge-solid cyan-badge">GLOBAL HABIT MASTERY</span>
+                  <span class="badge-solid green-badge" id="leaderboard-live-indicator">🟢 Real-Time Listener Active</span>
+                  <span class="badge-pill privacy-pill">🔒 100% Anonymous</span>
+                </div>
+                <h3>🏆 Global Student Leaderboard</h3>
+                <p class="leaderboard-subtitle">Top continuous study streaks worldwide. Complete lessons to rank higher without sharing personal identity.</p>
+              </div>
+              <div class="leaderboard-meta-col">
+                <button id="btn-refresh-leaderboard" class="btn-micro-action" title="Refresh Live Rankings">🔄 Sync</button>
+              </div>
+            </div>
+
+            <!-- Current User Anonymous Live Rank Highlight -->
+            <div id="user-rank-banner" class="user-rank-banner">
+              <div class="user-rank-left">
+                <div id="user-rank-badge" class="rank-pos-pill highlight-pos">#12</div>
+                <div class="user-rank-details">
+                  <div class="user-rank-name-row">
+                    <span class="user-rank-alias">You (Anonymous Learner)</span>
+                    <span id="user-rank-tier" class="user-tier-tag">Silver Tier</span>
+                  </div>
+                  <span id="user-rank-stats" class="user-rank-sub">0 Days Streak • 0 mins studied today</span>
+                </div>
+              </div>
+              <div class="user-rank-right">
+                <span id="user-rank-status-tip" class="rank-tip">Complete 1 lesson for Day 1!</span>
+              </div>
+            </div>
+
+            <!-- Tier / Education Filter Tabs -->
+            <div class="leaderboard-filters">
+              <button class="lb-filter-btn active" data-filter="all">🌍 All Levels</button>
+              <button class="lb-filter-btn" data-filter="secondary">🔬 Secondary (9-10)</button>
+              <button class="lb-filter-btn" data-filter="higher">🧪 Higher Sec (11-12)</button>
+              <button class="lb-filter-btn" data-filter="uni">🎓 Undergrad & Masters</button>
+            </div>
+
+            <!-- Leaderboard List -->
+            <div id="leaderboard-list" class="leaderboard-list">
+              <!-- Dynamically populated by app.js -->
+            </div>
+
+            <!-- Leaderboard Footer / Info -->
+            <div class="leaderboard-footer">
+              <span class="privacy-note">🔒 Zero personal data exposed. Ranks recalculate live upon lesson completion or pull-to-refresh sync.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: VEO AI CONCEPT VIDEO STUDIO -->
+        <div id="tab-veo" class="tab-pane">
+          <div class="tab-header">
+            <h2>Veo AI Concept Video Studio 🎬</h2>
+            <p>Generate high-definition animated educational video lessons from your uploaded lecture notes, textbook diagrams, and photos.</p>
+          </div>
+
+          <!-- Model Selector -->
+          <div class="veo-studio-card">
+            <label class="section-label">1. Select AI Video Model:</label>
+            <div class="veo-models-selector">
+              <div class="veo-model-pill active" data-model="veo-3.1-pro">
+                <span class="veo-model-tag">FLAGSHIP</span>
+                <span class="veo-model-name">Veo 3.1 Pro</span>
+                <span class="veo-model-desc">Cinematic 4K 60fps & physics simulation</span>
+              </div>
+              <div class="veo-model-pill" data-model="veo-3.0">
+                <span class="veo-model-tag">STANDARD</span>
+                <span class="veo-model-name">Veo 3.0</span>
+                <span class="veo-model-desc">Dynamic 1080p animation & diagrams</span>
+              </div>
+              <div class="veo-model-pill" data-model="veo-fast">
+                <span class="veo-model-tag">FAST</span>
+                <span class="veo-model-name">Veo Fast</span>
+                <span class="veo-model-desc">Rapid storyboard & concept preview</span>
+              </div>
+            </div>
+
+            <!-- Visual Style & Aspect Ratio -->
+            <div class="veo-controls-row">
+              <div>
+                <label class="section-label">Animation Style:</label>
+                <select id="select-veo-style" class="slider-range" style="height: 38px; background: #162038; color: #fff; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0 10px;">
+                  <option value="science-3d">🔬 3D Science & Molecular Animation</option>
+                  <option value="whiteboard">✏️ Animated Chalkboard / Diagram Explainer</option>
+                  <option value="code-tech">💻 Computer Science & Architecture Walkthrough</option>
+                  <option value="history-doc">🏛️ Historical / Social Science Documentary</option>
+                </select>
+              </div>
+              <div>
+                <label class="section-label">Duration & Frame:</label>
+                <select id="select-veo-ratio" class="slider-range" style="height: 38px; background: #162038; color: #fff; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0 10px;">
+                  <option value="16:9-30s">📺 16:9 Widescreen (30 seconds)</option>
+                  <option value="9:16-15s">📱 9:16 Vertical Reel (15 seconds)</option>
+                  <option value="16:9-60s">🎓 16:9 Comprehensive (60 seconds)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Upload conditioning images / notes -->
+            <label class="section-label" style="margin-top: 10px;">2. Upload Reference Images / Diagrams (Conditioning):</label>
+            <div class="upload-zone" id="veo-upload-zone">
+              <span class="upload-icon">📷</span>
+              <h4>Drop Diagram, Textbook Photo, or Formula Sheet</h4>
+              <p>Supports PNG, JPG, WEBP, PDF (Veo conditions video motion on these visuals)</p>
+              <div class="upload-actions-row">
+                <button type="button" class="btn-upload-action" id="btn-veo-browse">📁 Browse Files</button>
+                <button type="button" class="btn-upload-action" id="btn-veo-camera">📸 Take Photo</button>
+              </div>
+              <input type="file" id="input-veo-file" accept="image/*,application/pdf" multiple style="display: none;">
+            </div>
+            <div id="veo-file-previews" class="file-preview-strip"></div>
+
+            <!-- Topic Prompt -->
+            <label class="section-label" style="margin-top: 12px;">3. Lesson Topic or Custom Video Prompt:</label>
+            <textarea id="input-veo-prompt" rows="3" placeholder="e.g. Explain how human heart pumps blood with oxygenated and deoxygenated chambers, or explain Binary Search Trees in Computer Science..."></textarea>
+            
+            <div class="button-row" style="margin-top: 12px;">
+              <button id="btn-veo-preset-heart" class="btn-text">Sample: Heart Blood Flow</button>
+              <button id="btn-veo-preset-cs" class="btn-text">Sample: Binary Search</button>
+              <button id="btn-generate-veo" class="btn-primary">Generate Veo Video ✨</button>
+            </div>
+          </div>
+
+          <!-- Video Generation Progress Stage (Animated) -->
+          <div id="veo-progress-box" class="veo-generation-progress" style="display: none;">
+            <div class="loading-spinner"></div>
+            <h4 id="veo-progress-title">Initializing Veo 3.1 Pro Neural Pipeline...</h4>
+            <p id="veo-progress-desc">Synthesizing 4K 60fps cinematic keyframes based on uploaded diagram...</p>
+            <div class="progress-bar-track">
+              <div id="veo-progress-fill" class="progress-bar-fill" style="width: 15%;"></div>
+            </div>
+          </div>
+
+          <!-- Video Player Container -->
+          <div id="veo-player-container" class="veo-player-wrapper" style="display: none;">
+            <div class="veo-watermark">
+              <span>🎬</span> <span id="player-model-badge">Google Veo 3.1 Pro</span>
+            </div>
+            <canvas id="veo-canvas" class="veo-canvas-viewport"></canvas>
+            <div class="veo-player-toolbar">
+              <button id="btn-veo-play" class="veo-play-btn">▶</button>
+              <input type="range" id="veo-scrub" class="veo-time-scrubber" min="0" max="100" value="0">
+              <span id="veo-time-text" class="veo-timestamp">00:00 / 00:30</span>
+              <button id="btn-veo-sound" class="btn-url-pill" title="Toggle AI Narration Audio">🔊 Voice</button>
+              <button id="btn-veo-download" class="btn-url-pill primary" title="Save Video Lesson">⬇ Save</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: NOTES TO TOOLS CONVERTER WITH FILE UPLOAD -->
+        <div id="tab-notes" class="tab-pane">
+          <div class="tab-header">
+            <h2>Notes to Study Tools</h2>
+            <p>Paste notes or upload textbook photos, handwritten pages, and PDFs to generate instant summaries, formulas, and quizzes.</p>
+          </div>
+          <div class="input-card">
+            <input type="text" id="input-note-title" placeholder="Note Title (e.g. Chemical Reactions or सामाजिक अध्ययन एकाइ १)">
+            
+            <!-- Universal File / Image Dropzone -->
+            <div class="upload-zone upload-zone-compact" id="notes-upload-zone">
+              <span class="upload-icon">📄</span>
+              <h4>Upload Handwritten Notes, Book Photo, or PDF</h4>
+              <p>Drag & drop or snap a photo of your notebook</p>
+              <div class="upload-actions-row">
+                <button type="button" class="btn-upload-action" id="btn-notes-browse">📁 Upload File</button>
+                <button type="button" class="btn-upload-action" id="btn-notes-camera">📸 Camera Capture</button>
+              </div>
+              <input type="file" id="input-notes-file" accept="image/*,application/pdf,text/*" multiple style="display: none;">
+            </div>
+            <div id="notes-file-previews" class="file-preview-strip"></div>
+
+            <textarea id="input-note-text" rows="5" placeholder="Extracted text or typed notes will appear here..."></textarea>
+            <div class="button-row">
+              <button id="btn-sample-note" class="btn-text">Load Sample Note</button>
+              <button id="btn-convert-note" class="btn-primary">Generate Study Pack ✨</button>
+            </div>
+          </div>
+
+          <div id="notes-output-container" class="notes-output-container"></div>
+        </div>
+
+        <!-- TAB 4: ORAL VIVA VOCE (VOICE & DIAGRAM TESTING) -->
+        <div id="tab-viva" class="tab-pane">
+          <div class="tab-header">
+            <h2>Oral Viva Voce Examiner 🎙️</h2>
+            <p>Upload a question sheet or diagram, listen to the examiner, and speak your answers aloud for instant keyword grading.</p>
+          </div>
+          <div class="viva-card">
+            <div class="examiner-header">
+              <div class="examiner-avatar">🤖</div>
+              <div>
+                <h3>StudyPal AI Examiner</h3>
+                <span class="sub">Voice-Synthesized Oral Exam</span>
+              </div>
+              <button id="btn-viva-listen" class="btn-audio-speak" title="Listen Question Again">🔊 Speak Question</button>
+            </div>
+
+            <!-- Upload Diagram for Viva -->
+            <div class="upload-zone upload-zone-compact" id="viva-upload-zone" style="margin: 10px 0;">
+              <span class="upload-icon">🖼️</span>
+              <h4>Upload Diagram or Formula for Oral Test</h4>
+              <p>Examiner will ask questions based on your uploaded illustration</p>
+              <div class="upload-actions-row">
+                <button type="button" class="btn-upload-action" id="btn-viva-browse">📁 Attach Diagram</button>
+              </div>
+              <input type="file" id="input-viva-file" accept="image/*" style="display: none;">
+            </div>
+            <div id="viva-file-previews" class="file-preview-strip"></div>
+            
+            <div class="viva-question-box">
+              <span class="q-tag">Question 1 of 3</span>
+              <h3 id="viva-question-text">Why does calcium oxide react vigorously with water to form slaked lime, and what type of reaction is it?</h3>
+            </div>
+
+            <div class="speech-input-area">
+              <div class="mic-controls">
+                <button id="btn-mic-record" class="btn-mic">
+                  <span class="mic-icon">🎙️</span>
+                  <span id="mic-label">Tap to Speak Answer</span>
+                </button>
+              </div>
+              <textarea id="input-viva-transcript" rows="3" placeholder="Your spoken answer will appear here, or you can type directly..."></textarea>
+              <button id="btn-viva-evaluate" class="btn-primary">Evaluate Oral Response 🎯</button>
+            </div>
+
+            <div id="viva-feedback-box" class="viva-feedback-box" style="display: none;">
+              <div class="feedback-score-row">
+                <span id="viva-score-badge" class="score-badge">92% Match</span>
+                <span class="score-label">Syllabus Keyword Mastery</span>
+              </div>
+              <p id="viva-feedback-text">🌟 Outstanding! You accurately stated key concepts. Perfect for full board marks.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: SYLLABUS & CHAPTER MASTERY (BILINGUAL) -->
+        <div id="tab-syllabus" class="tab-pane">
+          <div class="tab-header">
+            <h2>Syllabus Mastery & PYQs</h2>
+            <p>Official NCERT, SEE, NEB and University degree chapters, formulas, and past year questions.</p>
+          </div>
+
+          <!-- Upload Custom Syllabus Document -->
+          <div class="upload-zone upload-zone-compact" id="syllabus-upload-zone" style="margin-bottom: 12px;">
+            <span class="upload-icon">📚</span>
+            <h4>Upload Custom College / School Syllabus PDF</h4>
+            <p>StudyPal will parse your exact school/university curriculum</p>
+            <button type="button" class="btn-upload-action" id="btn-syllabus-browse">📁 Choose Syllabus Document</button>
+            <input type="file" id="input-syllabus-file" accept="application/pdf,image/*,text/*" style="display: none;">
+          </div>
+          <div id="syllabus-file-previews" class="file-preview-strip"></div>
+
+          <div id="syllabus-subject-tabs" class="chips-row"></div>
+          <div id="syllabus-chapters-list" class="chapters-grid"></div>
+        </div>
+
+        <!-- TAB 6: TIMED PRACTICE PAPERS WITH UPLOAD -->
+        <div id="tab-papers" class="tab-pane">
+          <div class="tab-header">
+            <h2>Timed Practice Papers</h2>
+            <p>Simulate exam conditions with MCQs, short answers, and case studies, or upload past papers.</p>
+          </div>
+
+          <div class="upload-zone upload-zone-compact" id="papers-upload-zone" style="margin-bottom: 14px;">
+            <span class="upload-icon">📑</span>
+            <h4>Upload Past Question Paper (Photo / PDF)</h4>
+            <p>Converts scanned exam questions into interactive timed quizzes with instant grading</p>
+            <button type="button" class="btn-upload-action" id="btn-papers-browse">📁 Upload Question Paper</button>
+            <input type="file" id="input-papers-file" accept="image/*,application/pdf" style="display: none;">
+          </div>
+          <div id="papers-file-previews" class="file-preview-strip"></div>
+
+          <div id="papers-list-container" class="papers-container"></div>
+        </div>
+
+        <!-- TAB 7: AI TUTOR COPILOT WITH IMAGE ATTACHMENT -->
+        <div id="tab-tutor" class="tab-pane">
+          <div class="tab-header">
+            <h2>StudyPal AI Tutor 🤖</h2>
+            <p>Ask doubts, attach homework photos, or get step-by-step solutions in English, Nepali, and Hinglish.</p>
+          </div>
+          <div class="chat-container">
+            <div id="chat-messages" class="chat-messages"></div>
+            
+            <!-- Tutor Image Preview Bar -->
+            <div id="tutor-file-previews" class="file-preview-strip" style="padding: 0 12px;"></div>
+
+            <div class="chat-suggestions">
+              <button class="pill-suggestion" data-prompt="Explain Ohm's Law with circuit diagram formula">⚡ Ohm's Law Formula</button>
+              <button class="pill-suggestion" data-prompt="सामाजिक अध्ययन: नेपालको संविधान २०७२ का प्रमुख विशेषताहरू के-के हुन्?">🇳🇵 नेपालको संविधान</button>
+              <button class="pill-suggestion" data-prompt="What is Time Complexity of Merge Sort and Quick Sort in Computer Science?">💻 CS Sorting Algorithms</button>
+            </div>
+            
+            <div class="chat-input-row">
+              <button id="btn-tutor-attach" class="btn-url-pill" title="Attach homework photo or diagram">📎 Photo</button>
+              <input type="file" id="input-tutor-file" accept="image/*" style="display: none;">
+              <input type="text" id="input-tutor-message" placeholder="Ask doubt or attach photo...">
+              <button id="btn-send-tutor" class="btn-send">Send 🚀</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 8: FLASHCARDS DECK -->
+        <div id="tab-flashcards" class="tab-pane">
+          <div class="tab-header">
+            <h2>Formula & Concept Flashcards</h2>
+            <p>Active recall and spaced repetition for quick memory retention with image card support.</p>
+          </div>
+
+          <div class="upload-zone upload-zone-compact" id="flashcards-upload-zone" style="margin-bottom: 12px;">
+            <span class="upload-icon">🃏</span>
+            <h4>Upload Custom Flashcard Deck or Visual Sheets</h4>
+            <button type="button" class="btn-upload-action" id="btn-fc-browse">📁 Import Cards</button>
+            <input type="file" id="input-fc-file" accept="image/*,text/*" style="display: none;">
+          </div>
+          <div id="fc-file-previews" class="file-preview-strip"></div>
+
+          <div class="flashcard-stage">
+            <div id="active-flashcard" class="flashcard-3d">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span class="card-subject-tag" id="fc-subject">Science / विज्ञान</span>
+                  <p id="fc-front-text">What is the chemical formula of Slaked Lime?</p>
+                  <span class="flip-hint">Tap card to flip ↻</span>
+                </div>
+                <div class="flashcard-back">
+                  <span class="card-subject-tag">Answer</span>
+                  <p id="fc-back-text">Ca(OH)₂ [Calcium Hydroxide]</p>
+                  <p id="fc-hint-text" class="fc-hint">Formed when Quicklime (CaO) reacts with water</p>
+                </div>
+              </div>
+            </div>
+            <div class="flashcard-controls">
+              <button id="btn-fc-prev" class="btn-icon-round">←</button>
+              <button id="btn-fc-audio" class="btn-icon-round" title="Read Aloud">🔊</button>
+              <button id="btn-fc-mastered" class="btn-pill-mastered">Mark Mastered ✓</button>
+              <button id="btn-fc-next" class="btn-icon-round">→</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 9: PROFILE & SETTINGS (STRICT PRIVACY) -->
+        <div id="tab-profile" class="tab-pane">
+          <div class="tab-header">
+            <h2>Student Profile & Settings</h2>
+            <p>100% private. Customize your display name, upload a custom avatar photo, and manage goals.</p>
+          </div>
+
+          <!-- Account Card -->
+          <div class="profile-card">
+            <div class="account-header-row">
+              <div class="avatar-large" id="profile-avatar-large">SP</div>
+              <div class="account-details">
+                <h3 id="profile-name-text">Learner</h3>
+                <span id="profile-email-text" class="sub">learner@studypal.internal</span>
+                <span class="verified-badge">🔒 Private & Secure Session</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            
+            <!-- Upload Custom Profile Avatar -->
+            <div style="display: flex; gap: 8px; align-items: center; margin: 10px 0;">
+              <button type="button" id="btn-upload-avatar" class="btn-url-pill">📷 Change Profile Photo</button>
+              <input type="file" id="input-avatar-file" accept="image/*" style="display: none;">
+              <span id="avatar-filename-text" style="font-size: 11px; color: var(--text-muted);">Custom avatar optional</span>
+            </div>
+
+            <div class="account-actions">
+              <span class="micro-label">Session Management</span>
+              <button id="btn-open-logout-modal" class="btn-logout">Sign Out</button>
+            </div>
+          </div>
+
+          <!-- Edit Profile Form -->
+          <div class="input-card" style="margin-top: 16px;">
+            <h3>Edit Study Profile</h3>
+            <label for="edit-profile-name">Learner Display Name</label>
+            <input type="text" id="edit-profile-name" value="Learner">
+
+            <label for="edit-profile-class">Class or Degree Level</label>
+            <input type="text" id="edit-profile-class" value="Class 10 Secondary">
+
+            <label for="edit-profile-age">Student Age</label>
+            <input type="number" id="edit-profile-age" value="16" min="6" max="35">
+
+            <label for="edit-profile-exam">Target Examination Name</label>
+            <input type="text" id="edit-profile-exam" value="Secondary Final Examination 2027">
+
+            <label for="edit-profile-days">Days Until Exam Countdown</label>
+            <input type="number" id="edit-profile-days" value="90" min="1" max="365">
+
+            <label for="edit-profile-goal">Study Mastery Goal</label>
+            <input type="text" id="edit-profile-goal" value="95%+ Distinction Mastery">
+
+            <label for="edit-profile-mins">Daily Study Goal (Minutes)</label>
+            <input type="number" id="edit-profile-mins" value="45" min="15" max="300">
+
+            <button id="btn-save-profile" class="btn-primary" style="margin-top: 14px;">Save Profile & Goals 💾</button>
+            <p id="profile-saved-toast" class="toast-success" style="display: none;">✓ Profile updated successfully!</p>
+          </div>
+        </div>
+
+        <!-- TAB 10: AI CREATIVE STUDIO (7 MULTIMODAL GENERATIVE ENGINES) -->
+        <div id="tab-studio" class="tab-pane">
+          <div class="studio-header-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <h2>AI Creative Studio 🚀</h2>
+                <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+                  Music, image creation & editing, live voice, video animations, and multi-model Gemini chatbots.
+                </p>
+              </div>
+              <span class="model-spec-badge">7 GENERATIVE ENGINES</span>
+            </div>
+
+            <!-- Sub-navigation Pills -->
+            <div class="studio-subnav">
+              <button class="studio-pill active" data-studio="music">🎵 Music (Lyria)</button>
+              <button class="studio-pill" data-studio="image">🎨 Create & Edit Images</button>
+              <button class="studio-pill" data-studio="voice">🎙️ Live Voice API</button>
+              <button class="studio-pill" data-studio="anim-video">🎞️ Animate to Video</button>
+              <button class="studio-pill" data-studio="chat">💬 Gemini Chatbot</button>
+              <button class="studio-pill" data-studio="transcribe">📝 Transcribe Audio</button>
+              <button class="studio-pill" data-studio="text-video">🎬 Text to Video</button>
+            </div>
+          </div>
+
+          <!-- 1. LYRIA MUSIC GENERATOR -->
+          <div id="panel-studio-music" class="studio-tool-panel active">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Study Music & Mnemonic Generator</h3>
+                <span class="model-spec-badge purple" id="lyria-model-badge">lyria-3-clip-preview</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                Generate customized lo-fi focus beats or educational mnemonic songs to memorize formulas and historical timelines.
+              </p>
+
+              <label class="section-label">Music Track Length:</label>
+              <div class="aspect-pill-group">
+                <div class="aspect-pill active" data-lyria-model="lyria-3-clip-preview">⚡ Short Clip (up to 30s) • lyria-3-clip-preview</div>
+                <div class="aspect-pill" data-lyria-model="lyria-3-pro-preview">🎼 Full-Length Track • lyria-3-pro-preview</div>
+              </div>
+
+              <label class="section-label" style="margin-top: 10px;">Study Vibe / Mode:</label>
+              <div class="chips-flex" id="lyria-vibe-chips">
+                <div class="chip-item active" data-vibe="lofi">🎧 Lo-Fi Chill Study Beats</div>
+                <div class="chip-item" data-vibe="alpha">🧠 Binaural Alpha Waves (Deep Focus)</div>
+                <div class="chip-item" data-vibe="mnemonic">🎶 Chemistry & Math Mnemonic Rhyme</div>
+                <div class="chip-item" data-vibe="classical">🎹 Neoclassical Ambient Piano</div>
+              </div>
+
+              <label class="section-label" style="margin-top: 12px;">Topic / Formula for Mnemonic Track:</label>
+              <input type="text" id="input-lyria-prompt" value="Periodic Table Alkali Metals and Halogens Mnemonic Beat" placeholder="e.g. Newton's 3 Laws of Motion Mnemonic or Lo-Fi Calculus Study Beats">
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span style="font-size: 11px; color: var(--text-secondary);">Tempo: <strong id="label-lyria-bpm" class="highlight-cyan">85 BPM</strong></span>
+                <input type="range" id="input-lyria-bpm" min="60" max="130" value="85" style="width: 140px;">
+              </div>
+
+              <div class="button-row" style="margin-top: 12px;">
+                <button id="btn-sample-mnemonic" class="btn-text">Sample: Ohm's Law Rhyme</button>
+                <button id="btn-generate-music" class="btn-primary">Generate Music 🎵</button>
+              </div>
+
+              <!-- Waveform Visualizer & Player -->
+              <div id="lyria-player-container" style="display: none; margin-top: 14px;">
+                <canvas id="lyria-waveform" class="waveform-canvas"></canvas>
+                <div class="music-controls-bar">
+                  <button id="btn-lyria-play" class="veo-play-btn">▶</button>
+                  <div style="flex: 1;">
+                    <span id="lyria-track-title" style="font-size: 12px; font-weight: 700; color: #fff; display: block;">Generated Lo-Fi Study Track</span>
+                    <span id="lyria-track-meta" style="font-size: 10px; color: var(--color-primary);">Lyria 3 • 85 BPM • Lo-Fi Chill Mode</span>
+                  </div>
+                  <button id="btn-lyria-loop" class="btn-url-pill" title="Toggle Loop">🔁 Loop</button>
+                  <button id="btn-lyria-download" class="btn-url-pill primary" title="Download Audio">⬇ Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. CREATE & EDIT IMAGES (gemini-nano-banana-2.1) -->
+          <div id="panel-studio-image" class="studio-tool-panel">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Create & Edit Educational Diagrams</h3>
+                <span class="model-spec-badge">gemini-nano-banana-2.1</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                Create new diagrams from text prompts or upload existing textbook photos and apply natural language edits.
+              </p>
+
+              <div class="aspect-pill-group">
+                <div class="aspect-pill active" id="btn-imgmode-create">✨ Create New Image</div>
+                <div class="aspect-pill" id="btn-imgmode-edit">✏️ Edit Existing Image</div>
+              </div>
+
+              <!-- Upload container for Edit mode -->
+              <div id="image-edit-upload-box" style="display: none; margin-top: 8px;">
+                <div class="upload-zone upload-zone-compact" id="image-studio-upload-zone">
+                  <span class="upload-icon">🖼️</span>
+                  <h4>Upload Diagram or Formula Sheet to Edit</h4>
+                  <button type="button" class="btn-upload-action" id="btn-imgstudio-browse">📁 Browse Image</button>
+                  <input type="file" id="input-imgstudio-file" accept="image/*" style="display: none;">
+                </div>
+                <div id="imgstudio-file-previews" class="file-preview-strip"></div>
+              </div>
+
+              <label class="section-label" style="margin-top: 10px;">Prompt or Edit Instruction:</label>
+              <textarea id="input-image-prompt" rows="3" placeholder="e.g. Draw a labeled cross-section of Plant Cell with chloroplasts and cell wall in neon scientific colors, or: Highlight mitochondria in cyan..."></textarea>
+
+              <div class="button-row" style="margin-top: 12px;">
+                <button id="btn-img-preset-cell" class="btn-text">Sample: Plant Cell</button>
+                <button id="btn-img-preset-circuit" class="btn-text">Sample: Electric Circuit</button>
+                <button id="btn-generate-image" class="btn-primary">Generate / Edit Image 🎨</button>
+              </div>
+
+              <div id="image-result-container" style="display: none; margin-top: 14px;">
+                <canvas id="image-result-canvas" class="image-canvas-viewport"></canvas>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                  <span id="image-result-caption" style="font-size: 11px; color: var(--text-secondary);">Rendered with gemini-nano-banana-2.1</span>
+                  <button id="btn-download-image" class="btn-url-pill primary">⬇ Save Image</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. LIVE VOICE CONVERSATIONS (gemini-3.8-live) -->
+          <div id="panel-studio-voice" class="studio-tool-panel">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Live Voice Conversation</h3>
+                <span class="model-spec-badge green">gemini-3.8-live</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                Have real-time, low-latency spoken conversations with Gemini Live API for dynamic study coaching and viva simulations.
+              </p>
+
+              <div class="voice-orb-wrapper">
+                <div id="voice-live-orb" class="voice-orb" title="Tap to start / stop conversation"></div>
+                <span id="voice-live-status" style="font-size: 12px; font-weight: 700; color: var(--color-primary); margin-top: 16px;">
+                  Tap Orb to Start Live Conversation
+                </span>
+                <span id="voice-live-sub" style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+                  Speaks English, Nepali, Hindi & Hinglish
+                </span>
+              </div>
+
+              <div class="input-card" style="background: #090F20; border-color: var(--border-subtle); margin-top: 10px;">
+                <h4 style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Live Spoken Transcript:</h4>
+                <p id="voice-transcript-log" style="font-size: 13px; line-height: 1.5; color: #FFFFFF; min-height: 48px;">
+                  "Press the glowing orb to begin your live audio study conversation."
+                </p>
+              </div>
+
+              <div class="button-row" style="margin-top: 12px;">
+                <button id="btn-toggle-live-voice" class="btn-primary" style="width: 100%;">Connect Live Voice API 🎙️</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. ANIMATE IMAGES INTO VIDEO (gemini-omni-1.1-flash) -->
+          <div id="panel-studio-anim-video" class="studio-tool-panel">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Animate Image into Video</h3>
+                <span class="model-spec-badge">gemini-omni-1.1-flash</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                Upload a diagram, textbook photo, or handwritten problem and animate it into an educational video via Interactions API.
+              </p>
+
+              <label class="section-label">Aspect Ratio:</label>
+              <div class="aspect-pill-group">
+                <div class="aspect-pill active" data-anim-ratio="16:9">📺 16:9 (Landscape)</div>
+                <div class="aspect-pill" data-anim-ratio="9:16">📱 9:16 (Portrait Reel)</div>
+              </div>
+
+              <!-- Photo Upload Zone -->
+              <div class="upload-zone upload-zone-compact" id="anim-video-upload-zone" style="margin-top: 10px;">
+                <span class="upload-icon">📷</span>
+                <h4>Upload Photo / Diagram to Animate</h4>
+                <button type="button" class="btn-upload-action" id="btn-anim-browse">📁 Select Photo</button>
+                <input type="file" id="input-anim-file" accept="image/*" style="display: none;">
+              </div>
+              <div id="anim-file-previews" class="file-preview-strip"></div>
+
+              <label class="section-label" style="margin-top: 10px;">Motion & Animation Instructions:</label>
+              <textarea id="input-anim-instructions" rows="2" placeholder="e.g. Animate water cycle precipitation falling, or show current flowing through the circuit loop..."></textarea>
+
+              <div class="button-row" style="margin-top: 12px;">
+                <button id="btn-anim-sample" class="btn-text">Sample: Water Cycle Motion</button>
+                <button id="btn-generate-anim-video" class="btn-primary">Animate into Video 🎞️</button>
+              </div>
+
+              <!-- Video Player for Animated Image -->
+              <div id="anim-player-container" class="veo-player-wrapper" style="display: none; margin-top: 14px;">
+                <div class="veo-watermark">
+                  <span>🎞️</span> <span>gemini-omni-1.1-flash • Interactions API</span>
+                </div>
+                <canvas id="anim-video-canvas" class="veo-canvas-viewport"></canvas>
+                <div class="veo-player-toolbar">
+                  <button id="btn-anim-play" class="veo-play-btn">▶</button>
+                  <input type="range" id="anim-scrub" class="veo-time-scrubber" min="0" max="100" value="0">
+                  <span id="anim-time-text" class="veo-timestamp">00:00 / 00:15</span>
+                  <button id="btn-anim-download" class="btn-url-pill primary">⬇ Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. GEMINI MULTI-TURN CHATBOT (gemini-4-argon, gemini-3.8-flash, gemini-3.1-flash-lite) -->
+          <div id="panel-studio-chat" class="studio-tool-panel">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Gemini Multi-Turn Chatbot</h3>
+                <span class="model-spec-badge purple" id="chatbot-active-model-tag">gemini-4-argon</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+                Specialized role-guided AI chatbots with persistent conversation history and model tier selection.
+              </p>
+
+              <!-- Model Selector -->
+              <label class="section-label">Select Gemini Model Tier:</label>
+              <div class="aspect-pill-group">
+                <div class="aspect-pill active" data-chat-model="gemini-4-argon">🧠 gemini-4-argon (Complex Derivations)</div>
+                <div class="aspect-pill" data-chat-model="gemini-3.8-flash">⚡ gemini-3.8-flash (General Concepts)</div>
+                <div class="aspect-pill" data-chat-model="gemini-3.1-flash-lite">🚀 gemini-3.1-flash-lite (Ultra Fast)</div>
+              </div>
+
+              <!-- Domain Role Picker -->
+              <label class="section-label" style="margin-top: 8px;">Chatbot Specialized Role:</label>
+              <div class="chat-role-selector" id="chat-role-pills">
+                <div class="role-pill active" data-role="math">📐 Mathematics & Physics Proofs</div>
+                <div class="role-pill" data-role="science">🔬 Science & Chemistry Explainer</div>
+                <div class="role-pill" data-role="nepali">🇳🇵 नेपाली भाषा र सामाजिक अध्ययन</div>
+                <div class="role-pill" data-role="code">💻 Computer Science & Coding Tutor</div>
+              </div>
+
+              <!-- Conversation Thread -->
+              <div class="chat-container" style="height: 320px; margin-top: 8px;">
+                <div id="studio-chat-messages" class="chat-messages"></div>
+                <div class="chat-input-row">
+                  <input type="text" id="input-studio-chat" placeholder="Ask your question to the specialized tutor...">
+                  <button id="btn-send-studio-chat" class="btn-send">Send 🚀</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. TRANSCRIBE AUDIO (gemini-3.5-transcribe) -->
+          <div id="panel-studio-transcribe" class="studio-tool-panel">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Lecture Audio Transcriber</h3>
+                <span class="model-spec-badge green">gemini-3.5-transcribe</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                Record classroom lectures or upload recorded voice notes to transcribe into structured, study-ready notes.
+              </p>
+
+              <div class="upload-zone upload-zone-compact" id="transcribe-upload-zone">
+                <span class="upload-icon">🎙️</span>
+                <h4>Record with Microphone or Drop Audio File</h4>
+                <p>Supports MP3, WAV, M4A, AAC, and live microphone speech</p>
+                <div class="upload-actions-row">
+                  <button type="button" class="btn-upload-action" id="btn-mic-transcribe">🔴 Record Mic</button>
+                  <button type="button" class="btn-upload-action" id="btn-browse-audio">📁 Upload Audio</button>
+                </div>
+                <input type="file" id="input-transcribe-file" accept="audio/*" style="display: none;">
+              </div>
+              <div id="transcribe-file-previews" class="file-preview-strip"></div>
+
+              <div id="transcribe-recording-box" style="display: none; padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: var(--radius-md); margin-top: 10px; text-align: center;">
+                <span style="font-size: 12px; font-weight: 700; color: #EF4444;">🎙️ Recording Classroom Audio... Speak clearly</span>
+                <div class="progress-bar-track" style="margin-top: 6px;"><div class="progress-bar-fill" style="width: 100%; background: #EF4444; animation: pulse-dot 1s infinite;"></div></div>
+                <button id="btn-stop-transcribe" class="btn-url-pill primary" style="margin-top: 8px;">Stop & Transcribe</button>
+              </div>
+
+              <div id="transcription-result-box" style="display: none; margin-top: 14px;">
+                <h4 style="font-size: 13px; color: var(--color-primary); margin-bottom: 6px;">📝 Generated Transcript & Study Notes:</h4>
+                <div id="transcription-text" style="background: #0B1226; border: 1px solid var(--border-subtle); padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.6; white-space: pre-wrap;"></div>
+                <div class="button-row" style="margin-top: 8px;">
+                  <button id="btn-copy-transcript" class="btn-url-pill">📋 Copy Text</button>
+                  <button id="btn-transcript-to-notes" class="btn-url-pill primary">Convert to Study Pack ✨</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. GENERATE VIDEO FROM TEXT (gemini-omni-1.1-flash / Veo) -->
+          <div id="panel-studio-text-video" class="studio-tool-panel">
+            <div class="input-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3>Text-to-Video Generator</h3>
+                <span class="model-spec-badge">gemini-omni-1.1-flash</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                Generate high-definition educational videos from text prompts and curriculum notes with aspect ratio choices.
+              </p>
+
+              <label class="section-label">Aspect Ratio:</label>
+              <div class="aspect-pill-group">
+                <div class="aspect-pill active" data-textvid-ratio="16:9">📺 16:9 (Landscape)</div>
+                <div class="aspect-pill" data-textvid-ratio="9:16">📱 9:16 (Portrait Reel)</div>
+              </div>
+
+              <label class="section-label" style="margin-top: 10px;">Lesson Topic & Visual Script Prompt:</label>
+              <textarea id="input-textvid-prompt" rows="3" placeholder="e.g. Explain how planetary orbits work using Kepler's laws of planetary motion with elliptical orbits and gravitational focus..."></textarea>
+
+              <div class="button-row" style="margin-top: 12px;">
+                <button id="btn-textvid-sample-orbit" class="btn-text">Sample: Kepler's Orbits</button>
+                <button id="btn-generate-text-video" class="btn-primary">Generate Video from Text 🎬</button>
+              </div>
+
+              <!-- Text to Video Player -->
+              <div id="textvid-player-container" class="veo-player-wrapper" style="display: none; margin-top: 14px;">
+                <div class="veo-watermark">
+                  <span>🎬</span> <span>gemini-omni-1.1-flash • Interactions API</span>
+                </div>
+                <canvas id="textvid-canvas" class="veo-canvas-viewport"></canvas>
+                <div class="veo-player-toolbar">
+                  <button id="btn-textvid-play" class="veo-play-btn">▶</button>
+                  <input type="range" id="textvid-scrub" class="veo-time-scrubber" min="0" max="100" value="0">
+                  <span id="textvid-time-text" class="veo-timestamp">00:00 / 00:30</span>
+                  <button id="btn-textvid-download" class="btn-url-pill primary">⬇ Save Video</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Bottom Navigation Bar for Mobile -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="dashboard">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Home</span>
+        </button>
+        <button class="nav-item" data-tab="studio">
+          <span class="nav-icon">✨</span>
+          <span class="nav-label">AI Studio</span>
+        </button>
+        <button class="nav-item" data-tab="veo">
+          <span class="nav-icon">🎬</span>
+          <span class="nav-label">Veo AI</span>
+        </button>
+        <button class="nav-item" data-tab="notes">
+          <span class="nav-icon">📝</span>
+          <span class="nav-label">Notes</span>
+        </button>
+        <button class="nav-item" data-tab="viva">
+          <span class="nav-icon">🎙️</span>
+          <span class="nav-label">Viva</span>
+        </button>
+        <button class="nav-item" data-tab="papers">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Papers</span>
+        </button>
+        <button class="nav-item" data-tab="tutor">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-label">Tutor</span>
+        </button>
+        <button class="nav-item" data-tab="profile">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Profile</span>
+        </button>
+      </nav>
+    </section>
+
+    <!-- Google Account Modal (Anonymous & Custom Options) -->
+    <div id="modal-google-account" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <svg class="google-icon" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <h3>Sign In with Google</h3>
+        </div>
+        <p class="modal-sub">Choose an anonymous learner account or enter your custom alias:</p>
+        
+        <div id="btn-select-default-account" class="google-account-choice">
+          <div class="avatar-small">SP</div>
+          <div class="account-info">
+            <strong id="modal-account-name">Anonymous Learner</strong>
+            <span id="modal-account-email">learner@studypal.internal</span>
+          </div>
+          <span class="active-dot">●</span>
+        </div>
+
+        <div class="custom-account-inputs">
+          <label>Or enter custom display alias:</label>
+          <input type="text" id="modal-input-name" value="Learner" placeholder="Your study alias">
+          <label>Private email / ID (optional):</label>
+          <input type="email" id="modal-input-email" value="learner@studypal.internal" placeholder="email@example.com">
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-modal-cancel" class="btn-secondary">Cancel</button>
+          <button id="btn-modal-confirm-signin" class="btn-primary">Sign In Privately</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 1 STREAK CELEBRATION MODAL -->
+    <div id="modal-streak-celebration" class="modal-overlay">
+      <div class="modal-card streak-celebration-card">
+        <span class="streak-flame-blast">🔥</span>
+        <h3 class="streak-title">Day 1 Streak Unlocked! 🎉</h3>
+        <p class="streak-subtext">You completed your first active study lesson! Your real streak has officially started at Day 1.</p>
+        <div class="streak-metrics-pill">
+          <span>🔥 1 Day Streak</span>
+          <span>•</span>
+          <span>🛡️ 2 Shields Active</span>
+        </div>
+        <button id="btn-close-streak-modal" class="btn-primary" style="width: 100%;">Keep Studying 🚀</button>
+      </div>
+    </div>
+
+    <!-- QR CODE & SHARE MODAL -->
+    <div id="modal-qr" class="modal-overlay">
+      <div class="modal-card" style="text-align: center;">
+        <h3>Open StudyPal on Any Device 🌐</h3>
+        <p class="modal-sub">Works smoothly in Chrome, Safari, Edge, and Firefox across phones, tablets, and computers.</p>
+        <div style="background: white; padding: 16px; border-radius: 12px; display: inline-block; margin: 12px 0;">
+          <!-- SVG QR Code Pattern -->
+          <svg width="160" height="160" viewBox="0 0 200 200">
+            <rect width="200" height="200" fill="#FFFFFF"/>
+            <!-- Corner marker 1 -->
+            <rect x="20" y="20" width="50" height="50" fill="#070B19"/>
+            <rect x="30" y="30" width="30" height="30" fill="#FFFFFF"/>
+            <rect x="37" y="37" width="16" height="16" fill="#070B19"/>
+            <!-- Corner marker 2 -->
+            <rect x="130" y="20" width="50" height="50" fill="#070B19"/>
+            <rect x="140" y="30" width="30" height="30" fill="#FFFFFF"/>
+            <rect x="147" y="37" width="16" height="16" fill="#070B19"/>
+            <!-- Corner marker 3 -->
+            <rect x="20" y="130" width="50" height="50" fill="#070B19"/>
+            <rect x="30" y="140" width="30" height="30" fill="#FFFFFF"/>
+            <rect x="37" y="147" width="16" height="16" fill="#070B19"/>
+            <!-- Pattern data blocks -->
+            <rect x="85" y="25" width="12" height="12" fill="#070B19"/>
+            <rect x="105" y="25" width="12" height="12" fill="#070B19"/>
+            <rect x="85" y="55" width="20" height="12" fill="#070B19"/>
+            <rect x="25" y="85" width="12" height="20" fill="#070B19"/>
+            <rect x="45" y="95" width="25" height="12" fill="#070B19"/>
+            <rect x="80" y="80" width="40" height="40" fill="#00E5FF"/>
+            <rect x="92" y="92" width="16" height="16" fill="#070B19"/>
+            <rect x="135" y="85" width="15" height="15" fill="#070B19"/>
+            <rect x="160" y="105" width="20" height="15" fill="#070B19"/>
+            <rect x="85" y="135" width="12" height="15" fill="#070B19"/>
+            <rect x="110" y="145" width="25" height="12" fill="#070B19"/>
+            <rect x="145" y="135" width="35" height="15" fill="#070B19"/>
+            <rect x="145" y="160" width="18" height="20" fill="#070B19"/>
+          </svg>
+        </div>
+        <p id="modal-url-display" style="font-size: 12px; color: var(--color-primary); font-weight: 700; word-break: break-all;">
+          https://ais-pre-fk3j6bzcbvokzambobfzoy-175532158548.asia-southeast1.run.app
+        </p>
+        <div class="modal-actions" style="justify-content: center; margin-top: 16px;">
+          <button id="btn-copy-modal-url" class="btn-primary">📋 Copy URL</button>
+          <button id="btn-close-qr-modal" class="btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Out Confirmation Modal -->
+    <div id="modal-logout" class="modal-overlay">
+      <div class="modal-card">
+        <h3>Sign Out of StudyPal?</h3>
+        <p class="modal-sub">Are you sure you want to sign out of your private session? You can sign back in anytime to continue your study streak.</p>
+        <div class="modal-actions">
+          <button id="btn-cancel-logout" class="btn-secondary">Cancel</button>
+          <button id="btn-confirm-logout" class="btn-danger">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div id="modal-image-preview" class="modal-overlay">
+      <div class="modal-card" style="text-align: center; max-width: 90%;">
+        <h4 id="image-preview-title" style="margin-bottom: 8px;">Uploaded Document / Image</h4>
+        <img id="image-preview-img" src="" alt="Preview" style="max-width: 100%; max-height: 70vh; border-radius: 8px; border: 1px solid var(--border-subtle);">
+        <div class="modal-actions" style="justify-content: center; margin-top: 12px;">
+          <button id="btn-close-image-modal" class="btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

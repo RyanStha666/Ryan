@@ -1,0 +1,6 @@
+{
+  "name": "StudyPal",
+  "description": "AI Study Companion with Google Sign-In, Class 1 to Master's degree adaptive learning, oral viva tests, notes converter, and exam countdown.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
